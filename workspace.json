@@ -1,0 +1,126 @@
+{
+  "version": 2,
+  "projects": {
+    "to-do": {
+      "root": "apps/to-do",
+      "sourceRoot": "apps/to-do/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/to-do",
+            "index": "apps/to-do/src/index.html",
+            "main": "apps/to-do/src/main.tsx",
+            "polyfills": "apps/to-do/src/polyfills.ts",
+            "tsConfig": "apps/to-do/tsconfig.app.json",
+            "assets": ["apps/to-do/src/favicon.ico", "apps/to-do/src/assets"],
+            "styles": ["apps/to-do/src/styles.scss"],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/to-do/src/environments/environment.ts",
+                  "with": "apps/to-do/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "to-do:build",
+            "hmr": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "to-do:build:production",
+              "hmr": false
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/to-do/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/to-do"],
+          "options": {
+            "jestConfig": "apps/to-do/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "to-do-e2e": {
+      "root": "apps/to-do-e2e",
+      "sourceRoot": "apps/to-do-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/to-do-e2e/cypress.json",
+            "devServerTarget": "to-do:serve",
+            "tsConfig": "apps/to-do-e2e/tsconfig.json"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "to-do:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/to-do-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "scss",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "scss"
+      },
+      "library": {
+        "style": "scss",
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "to-do"
+}
