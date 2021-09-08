@@ -10,5 +10,8 @@ import { ListService } from './list.service';
     ListItemModule,
   ],
   providers: [ListService],
+  exports: [
+    MongooseModule.forFeature([{ name: List.name, schema: ListSchema }])
+  ]
 })
 export class ListModule {}
