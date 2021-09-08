@@ -7,8 +7,13 @@ export class ToDoController {
   constructor(private readonly todooService: ToDoService) {}
 
   @Get('list')
-  list() {
-    return this.todooService.getLists();
+  list() : Promise<List[]> {
+    return this.todooService.getLists().lists;
+  }
+
+  @Get()
+  test() : string {
+    return "test";
   }
 
   @Get('list/:id')
@@ -23,7 +28,7 @@ export class ToDoController {
 
   @Put('list/add')
   item(@Body() list: List) {
-    return this.todooService.addList(list);
+    this.todooService.addList(list);
   }
 
   @Put('list/:id/update')

@@ -1,7 +1,6 @@
-import { All, Controller, Get } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 
 import { AppService } from './app.service';
-import { ToDoModule } from './to-do/to-do.module';
 
 @Controller()
 export class AppController {
@@ -10,11 +9,5 @@ export class AppController {
   @Get()
   getData() {
     return this.appService.getData();
-  }
-
-  @All()
-  toDo()
-  {
-    return () => ToDoModule
   }
 }

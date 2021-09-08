@@ -13,6 +13,7 @@ export class ListService {
 
   constructor(@InjectModel(List.name) private listModel: Model<ListDocument>,
   private listItemService: ListItemService) {
+    this.list = new List;
     this.list.title = 'Test';
     this.list.items = [];
   }
