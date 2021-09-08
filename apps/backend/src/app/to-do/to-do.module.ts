@@ -1,10 +1,12 @@
 import { Module } from "@nestjs/common";
+import { ListModule } from "./list/list.module";
 
 import { ToDoController } from "./to-do.controller";
 import { ToDoService } from "./to-do.service";
 
+
 @Module({
-  imports: [],
+  imports: [ListModule],
   controllers: [
     ToDoController,
   ],

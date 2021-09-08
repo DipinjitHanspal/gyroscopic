@@ -1,48 +1,53 @@
+import { Model } from 'mongoose';
+
 import { Injectable } from '@nestjs/common';
-import { Item } from './list.item.interface';
-import { List } from './list.schema';
+import { InjectModel } from '@nestjs/mongoose';
+
+import { Item } from '../list-item/list-item.interface';
+import { List, ListDocument } from './list.schema';
+import { ListItemService } from '../list-item/list-item.service';
 
 @Injectable()
 export class ListService {
   list: List;
 
-  constructor() {
+  constructor(@InjectModel(List.name) private listModel: Model<ListDocument>,
+  private listItemService: ListItemService) {
     this.list.title = 'Test';
     this.list.items = [];
   }
 
-  getAll(): List {
-    return this.list;
+  async getAll(): Promise<List[]> {
+    return this.listModel.find().exec();
   }
 
-  addItem(item: Item) {
-    this.list.items.push(item);
+  async getList(id: number): Promise<List> {
+    return (await this.listModel.findById(id)).toObject();
   }
 
-  removeItem(title: string) : boolean {
-    const item: Item | null = this.findItem(title);
-    if (item) {
-      const index : number = this.list.items.indexOf(item);
-      // Splice only returns a list even if you delete 1 item
-      this.list.items.splice(index)[0];
-      return true;
-    }
-    return false;
+  async updateList(listID: number, newState: List): Promise<List> {
+    return this.listModel.findByIdAndUpdate(listID, (listDocument: ListDocument) => listDocument.items = newState.items);
   }
 
-  updateItem(title: string, newState: Item): void {
-    const item: Item | null = this.findItem(title);
-    if (item)
-    {
-      const index : number = this.list.items.indexOf(item);
-      this.list.items[index] = newState;
-    }
+  async addList(list: List) : Promise<List> {
+    return this.listModel.create(list);
   }
 
-  findItem(title: string): Item | null {
-    const item: Item | null = this.list.items.find(
-      (item: Item) => item.title == title
-    );
-    return item;
+  async deleteList(id: number) : Promise<List> {
+    return this.listModel.findByIdAndDelete(id);
+  }
+
+  async updateItem(id: number, itemTitle: string, newState: Item): Promise<List> {
+    return this.listModel.findByIdAndUpdate(id, (listDocument: ListDocument) => this.listItemService.updateItem(listDocument, itemTitle, newState))
+  }
+
+  async removeItem(id: number, itemTitle: string): Promise<List> {
+    return this.listModel.findByIdAndUpdate(id, (listDocument: ListDocument) => this.listItemService.removeItem(listDocument, itemTitle));
+  }
+
+  async addItem(id: number, item: Item): Promise<List> {
+    return this.listModel.findByIdAndUpdate(id, (listDocument: ListDocument) => this.listItemService.addItem(listDocument, item))
   }
 }
+
+

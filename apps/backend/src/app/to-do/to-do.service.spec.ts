@@ -15,7 +15,7 @@ describe('AppService', () => {
 
   describe('getData', () => {
     it('should return the default list', () => {
-      expect(service.getList()).not.toBeNull();
+      expect(service.getLists()).not.toBeNull();
     });
   });
 });

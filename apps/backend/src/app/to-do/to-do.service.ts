@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { List } from './list/list.interface';
-import { Item } from './list/list.item.interface';
+import { List } from './list/list.schema';
 
 import { ListService } from './list/list.service';
 
@@ -8,19 +7,23 @@ import { ListService } from './list/list.service';
 export class ToDoService {
   constructor(private listService: ListService) {}
 
-  getList(): { list: List } {
-    return { list: this.listService.getAll() };
+  getLists(): { lists: Promise<List[]> } {
+    return { lists: this.listService.getAll() };
   }
 
-  deleteItem(title: string): { success: boolean } {
-    return { success: this.listService.removeItem(title) };
+  getList(id: number): { list: Promise<List> } {
+    return { list: this.listService.getList(id) };
   }
 
-  addItem(item: Item): void {
-    this.listService.addItem(item);
+  deleteList(id: number): { result: Promise<List> } {
+    return { result: this.listService.deleteList(id) };
   }
 
-  updateItem(title: string, newItem: Item) {
-    this.listService.updateItem(title, newItem);
+  addList(newList: List): { result: Promise<List> } {
+    return { result: this.listService.addList(newList) };
+  }
+
+  updateList(id: number, newState: List) {
+    this.listService.updateList(id, newState);
   }
 }

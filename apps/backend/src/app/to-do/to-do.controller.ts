@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { Item } from './list/list.item.interface';
+import { List } from './list/list.schema';
 import { ToDoService } from './to-do.service';
 
 @Controller('to-do')
@@ -8,22 +8,27 @@ export class ToDoController {
 
   @Get('list')
   list() {
-    return this.todooService.getList();
+    return this.todooService.getLists();
   }
 
-  @Post('list/items/:title')
-  delete(@Param('title') title: string) {
-    return this.todooService.deleteItem(title);
+  @Get('list/:id')
+  listOne(@Param('id') id: number) {
+    return this.todooService.getList(id);
+  }
+
+  @Post('list/:id')
+  delete(@Param('id') id: number) {
+    return this.todooService.deleteList(id);
   }
 
   @Put('list/add')
-  item(@Body() item: Item) {
-    return this.todooService.addItem(item);
+  item(@Body() list: List) {
+    return this.todooService.addList(list);
   }
 
-  @Put('list/items/:title/update')
-  updateItem(@Param() title: string, @Body() item: Item)
+  @Put('list/:id/update')
+  updateItem(@Param('id') id: number, @Body() list: List)
   {
-    return this.todooService.updateItem(title, item);
+    return this.todooService.updateList(id, list);
   }
 }
