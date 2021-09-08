@@ -11,8 +11,10 @@
   "dependencies": {
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
+    "@nestjs/mongoose": "^8.0.1",
     "@nestjs/platform-express": "^7.0.0",
     "core-js": "^3.6.5",
+    "mongoose": "^5.13.9",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "reflect-metadata": "^0.1.13",
