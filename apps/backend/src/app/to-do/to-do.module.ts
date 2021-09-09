@@ -1,21 +1,19 @@
-import { Module } from "@nestjs/common";
-import { ListItemModule } from "./list-item/list-item.module";
-import { ListModule } from "./list/list.module";
-import { ListService } from "./list/list.service";
-
-import { ToDoController } from "./to-do.controller";
-import { ToDoService } from "./to-do.service";
-
+import { Module } from '@nestjs/common';
+import { ToDoService } from './to-do.service';
+import { ToDoController } from './to-do.controller';
+import { ListModule } from './list/list.module';
+import { ListItemModule } from './list/list-item/list-item.module';
+import { ListService } from './list/list.service';
 
 @Module({
-  imports: [ListModule, ListItemModule],
-  controllers: [
-    ToDoController,
+  imports: [
+    ListModule,
+    ListItemModule
   ],
+  controllers: [ToDoController],
   providers: [
     ToDoService,
     ListService
   ]
 })
-
 export class ToDoModule {}

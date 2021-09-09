@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ListItemModule } from '../list-item/list-item.module';
+import { ListItemModule } from './list-item/list-item.module';
 import { List, ListSchema } from './list.schema';
 import { ListService } from './list.service';
 

@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { Document } from 'mongoose';
 
-import { Item } from '../list-item/list-item.interface';
+import { Item } from './list-item/list-item.interface';
 
 export type ListDocument = List & Document;
 

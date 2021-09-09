@@ -1,21 +1,18 @@
-import { Test } from '@nestjs/testing';
-
+import { Test, TestingModule } from '@nestjs/testing';
 import { ToDoService } from './to-do.service';
 
-describe('AppService', () => {
+describe('ToDoService', () => {
   let service: ToDoService;
 
-  beforeAll(async () => {
-    const app = await Test.createTestingModule({
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
       providers: [ToDoService],
     }).compile();
 
-    service = app.get<ToDoService>(ToDoService);
+    service = module.get<ToDoService>(ToDoService);
   });
 
-  describe('getData', () => {
-    it('should return the default list', () => {
-      expect(service.getLists()).not.toBeNull();
-    });
+  it('should be defined', () => {
+    expect(service).toBeDefined();
   });
 });

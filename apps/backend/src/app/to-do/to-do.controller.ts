@@ -1,39 +1,34 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { List } from './list/list.schema';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ToDoService } from './to-do.service';
+import { CreateListDto } from './list/dto/create-list.dto';
+import { UpdateListDto } from './list/dto/update-list.dto';
 
 @Controller('to-do')
 export class ToDoController {
-  constructor(private readonly todooService: ToDoService) {}
+  constructor(private readonly toDoService: ToDoService) {}
 
-  @Get('list')
-  list() : Promise<List[]> {
-    return this.todooService.getLists().lists;
+  @Post('list')
+  create(@Body() createListDto: CreateListDto) {
+    return this.toDoService.create(createListDto);
   }
 
-  @Get()
-  test() : string {
-    return "test";
+  @Get('list')
+  findAll() {
+    return this.toDoService.findAll();
   }
 
   @Get('list/:id')
-  listOne(@Param('id') id: number) {
-    return this.todooService.getList(id);
+  findOne(@Param('id') id: string) {
+    return this.toDoService.findOne(+id);
   }
 
-  @Post('list/:id')
-  delete(@Param('id') id: number) {
-    return this.todooService.deleteList(id);
+  @Patch('list/:id')
+  update(@Param('id') id: string, @Body() updateListDto: UpdateListDto) {
+    return this.toDoService.update(+id, updateListDto);
   }
 
-  @Put('list/add')
-  item(@Body() list: List) {
-    this.todooService.addList(list);
-  }
-
-  @Put('list/:id/update')
-  updateItem(@Param('id') id: number, @Body() list: List)
-  {
-    return this.todooService.updateList(id, list);
+  @Delete('list/:id')
+  remove(@Param('id') id: string) {
+    return this.toDoService.remove(+id);
   }
 }

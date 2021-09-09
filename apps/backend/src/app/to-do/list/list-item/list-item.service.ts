@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { ListDocument } from "../list/list.schema";
+import { ListDocument } from "../list.schema";
 import { Item } from "./list-item.interface";
 
 @Injectable()
