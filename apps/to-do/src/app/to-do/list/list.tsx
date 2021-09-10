@@ -35,7 +35,6 @@ export class ListComponent extends React.Component<ListProps, List> {
     fetch(url)
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         this.setState({
           _id: this.props.id,
           title: res.title,

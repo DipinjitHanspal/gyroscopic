@@ -144,6 +144,10 @@
           "outputs": ["coverage/apps/to-do"],
           "options": {
             "jestConfig": "apps/to-do/jest.config.js",
+            "autoMock": "false",
+            "setupFiles": [
+              "./setupJest.js"
+            ],
             "passWithNoTests": true
           }
         }
