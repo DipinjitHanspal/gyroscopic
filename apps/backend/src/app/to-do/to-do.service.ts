@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ToDo } from './entities/to-do.entity';
+
 import { CreateListDto } from './list/dto/create-list.dto';
 import { UpdateListDto } from './list/dto/update-list.dto';
 import { List } from './list/list.schema';
@@ -9,27 +9,27 @@ import { ListService } from './list/list.service';
 export class ToDoService {
   constructor(private listService: ListService) {}
 
-  create(createListDto: CreateListDto) {
-    return { result: this.listService.addList(createListDto) };
+  create(createListDto: CreateListDto): Promise<List> {
+    return this.listService.addList(createListDto);
   }
 
-  findAll(): { lists: Promise<List[]> } {
-    return { lists: this.listService.getAll() };
+  findAll(): Promise<List[]> {
+    return this.listService.getAll();
   }
 
-  async deleteList(id: number) : Promise<List> {
+  async deleteList(id: string): Promise<List> {
     return this.listService.deleteList(id);
   }
 
-  findOne(id: number): {list: Promise<List>} {
-    return { list: this.listService.getList(id) };
+  findOne(id: string): Promise<List> {
+    return this.listService.getList(id);
   }
 
-  update(id: number, updateListDto: UpdateListDto) {
-    this.listService.updateList(id, updateListDto);
+  update(id: string, updateListDto: UpdateListDto): Promise<List> {
+    return this.listService.updateList(id, updateListDto);
   }
 
-  remove(id: number): { result: Promise<List> } {
-    return { result: this.listService.deleteList(id) };
+  remove(id: string): Promise<List> {
+    return this.listService.deleteList(id);
   }
 }

@@ -1,0 +1,23 @@
+@import './item/item.module.scss';
+
+.BottomNav {
+  bottom: 0;
+  display: flex;
+}
+
+.RightButtons
+{
+  float: right;
+}
+
+.LeftButtons
+{
+  float:left
+}
+
+.List
+{
+  width: 100%;
+  height: max-content;
+  margin: 0;
+}
