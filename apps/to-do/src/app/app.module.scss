@@ -1,8 +1,15 @@
+.FloatingHomeNav {
+  bottom:10;
+  margin: 0 60 0 40;
+  position:relative;
+}
+
 .app {
   font-family: sans-serif;
   min-width: 300px;
   max-width: 600px;
   margin: 50px auto;
+  min-height: 300px;;
 }
 
 .app :global(.gutter-left) {
@@ -14,7 +21,7 @@
 }
 
 .app :global(.flex) {
-  display: flex;
+  display: block;
   align-items: center;
   justify-content: center;
 }

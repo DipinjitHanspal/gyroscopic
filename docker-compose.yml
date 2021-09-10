@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  to-do:
+    image: to-do
+    environment:
+      - apiPath=http://api:3333
+    ports:
+      - '8080:3334'
+  backend:
+    image: backend
+    ports:
+      - '8081:3333'
