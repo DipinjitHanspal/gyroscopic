@@ -19,7 +19,7 @@ export class ListComponent extends React.Component<ListProps, List> {
       newItemTitle: '',
       newListTitle: '',
       newItemsList: [],
-      dirty: false
+      dirty: false,
     };
 
     this.handleItemTitle = this.handleItemTitle.bind(this);
@@ -30,9 +30,8 @@ export class ListComponent extends React.Component<ListProps, List> {
     this.handleItemToggleDone = this.handleItemToggleDone.bind(this);
   }
 
-  loadList()
-  {
-    const url = 'http://localhost:3333/api/to-do/list/' + this.props.id;
+  loadList() {
+    const url: string = (process.env.apiPath || 'http://localhost:3333') + '/api/to-do/list' + this.props.id;
     fetch(url)
       .then((res) => res.json())
       .then((res) => {
@@ -44,13 +43,13 @@ export class ListComponent extends React.Component<ListProps, List> {
           newListTitle: res.title,
           // Deep copy to avoid pass-by-reference issues
           newItemsList: [...res.items],
-          dirty: false
+          dirty: false,
         });
       });
   }
 
   componentDidMount() {
-    this.loadList()
+    this.loadList();
   }
 
   handleTitleChange(
@@ -86,26 +85,25 @@ export class ListComponent extends React.Component<ListProps, List> {
       items: [...this.state.newItemsList],
     };
 
-    console.log(listUpdateDto.items)
+    console.log(listUpdateDto.items);
 
     const requestOptions = {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(listUpdateDto),
     };
-    const url = 'http://localhost:3333/api/to-do/list/' + this.props.id;
+    const url: string = (process.env.apiPath || 'http://localhost:3333') + '/api/to-do/list' + this.props.id;
     fetch(url, requestOptions)
       .then((res) => res.json())
-      .then(() =>
-      {
-        this.loadList()
+      .then(() => {
+        this.loadList();
       })
       .catch((err) => {
         console.log(err);
         this.setState({
           newListTitle: this.state.title,
           newItemTitle: '',
-          newItemsList: [...this.state.items]
+          newItemsList: [...this.state.items],
         });
       });
   }
@@ -115,17 +113,17 @@ export class ListComponent extends React.Component<ListProps, List> {
       newListTitle: this.state.title,
       newItemTitle: '',
       newItemsList: [...this.state.items],
-      dirty: false
+      dirty: false,
     });
   }
 
   handleItemDelete(item: Item) {
-    console.log(item)
+    console.log(item);
     const items: Item[] = this.state.newItemsList;
     const idx: number = items.indexOf(item);
     items.splice(idx, 1);
     this.setState({
-      newItemsList: items
+      newItemsList: items,
     });
   }
 
@@ -135,7 +133,7 @@ export class ListComponent extends React.Component<ListProps, List> {
     items[idx].done = e.target.checked;
     this.setState({
       newItemsList: items,
-      dirty: true
+      dirty: true,
     });
   }
 
@@ -149,19 +147,21 @@ export class ListComponent extends React.Component<ListProps, List> {
           value={newListTitle}
           onChange={this.handleTitleChange}
         />
-        {newItemsList.length > 0 && (
-            newItemsList.map((item: Item, idx: number) => (
-              <Container key={idx} className={ styles.ItemContainer }>
-                <ItemComponent
-                  item={item}
-                  handleItemChange={this.handleItemToggleDone}
-                />
-                <Button className={ styles.ItemButton } onClick={() => this.handleItemDelete(item)}>
-                  Delete
-                </Button>
-              </Container>
-            ))
-        )}
+        {newItemsList.length > 0 &&
+          newItemsList.map((item: Item, idx: number) => (
+            <Container key={idx} className={styles.ItemContainer}>
+              <ItemComponent
+                item={item}
+                handleItemChange={this.handleItemToggleDone}
+              />
+              <Button
+                className={styles.ItemButton}
+                onClick={() => this.handleItemDelete(item)}
+              >
+                Delete
+              </Button>
+            </Container>
+          ))}
         {!(newItemsList.length > 0) && (
           <span>
             <p>Add an Item!</p>
@@ -181,7 +181,9 @@ export class ListComponent extends React.Component<ListProps, List> {
               Add Item
             </Button>
           </span>
-          {(dirty || newListTitle !== title || JSON.stringify(newItemsList) !== JSON.stringify(items) ) && (
+          {(dirty ||
+            newListTitle !== title ||
+            JSON.stringify(newItemsList) !== JSON.stringify(items)) && (
             <span className={styles.RightButtons}>
               <Button onClick={this.handleDataSave}>Save Changes</Button>
               <Button onClick={this.handleCancel}>Cancel</Button>

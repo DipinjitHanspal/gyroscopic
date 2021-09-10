@@ -27,7 +27,8 @@ class ToDo extends React.Component<ToDoProps, ToDoState> {
 
   loadLists()
   {
-    fetch('http://localhost:3333/api/to-do/list', {
+    const url: string =  (process.env.apiPath || 'http://localhost:3333') + '/api/to-do/list';
+    fetch(url , {
       headers: {
         'access-control-allow-origin': '*',
       },
@@ -45,11 +46,12 @@ class ToDo extends React.Component<ToDoProps, ToDoState> {
   }
 
   handleListDelete(_id: string) {
+    const url: string =  (process.env.apiPath || 'http://localhost:3333') + '/api/to-do/list/' + _id;
     const requestOptions = {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
     };
-    fetch('http://localhost:3333/api/to-do/list/' + _id, requestOptions)
+    fetch(url, requestOptions)
       .then((res) => res.json())
       .then((res) => {
         this.loadLists()
@@ -58,6 +60,8 @@ class ToDo extends React.Component<ToDoProps, ToDoState> {
 
   handleListCreate() {
     if (this.state.newListTitle.length > 0) {
+      const url: string = (process.env.apiPath || 'http://localhost:3333') + '/api/to-do/list/';
+
       const createListDto: CreateListDto = { title: this.state.newListTitle };
 
       const requestOptions = {
@@ -65,7 +69,7 @@ class ToDo extends React.Component<ToDoProps, ToDoState> {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(createListDto),
       };
-      fetch('http://localhost:3333/api/to-do/list', requestOptions)
+      fetch(url, requestOptions)
         .then((res) => res.json())
         .then((res) => {
           this.setState({
